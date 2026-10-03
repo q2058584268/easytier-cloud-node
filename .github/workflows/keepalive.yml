@@ -1,0 +1,23 @@
+name: keepalive
+
+# 免费容器平台空闲后可能会缩容到 0，这里每 10 分钟打一次请求保活。
+# 即使真的缩到 0，下一次连入也会自动唤醒（约 1~2 秒冷启动），只是首次连接会慢一点。
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  keep-warm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit node
+        env:
+          NODE_URL: ${{ secrets.NODE_URL }}
+        run: |
+          if [ -z "$NODE_URL" ]; then
+            echo "NODE_URL 未配置，跳过（去 Settings -> Secrets 添加）"
+            exit 0
+          fi
+          code=$(curl -s -o /dev/null -w '%{http_code}' -m 20 "https://${NODE_URL}" || echo "000")
+          echo "keep-warm -> HTTP ${code}"
