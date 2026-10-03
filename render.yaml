@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: easytier-relay
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    branch: main
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: ET_HOSTNAME
+        value: et-cloud
+      - key: ET_RELAY_NETWORK_WHITELIST
+        value: hangzhou-office
