@@ -7,9 +7,16 @@
 - 云端节点：公共共享节点模式（不带 `--network-name`/`--network-secret`），谁都能带身份接入
 - 客户端：各自带相同的网络名 + 网络密钥，先尝试 P2P 直连，打洞失败才走云端中继
 
+## 当前进度
+
+代码已推送到 **https://github.com/q2058584268/easytier-cloud-node**（GitHub Actions 已开启）。
+剩下最后一步：在 Koyeb（或 Render）上点一下部署，拿到域名。
+
 ---
 
 ## 路线 A：Koyeb 免费档（0 元，用你的 GitHub 账号）
+
+代码已推好，直接跳到 **第 2 步** 即可。
 
 ### 1. 把这个目录推到 GitHub
 
@@ -71,6 +78,20 @@ wss://your-app-org.koyeb.app
 - Value: `your-app-org.koyeb.app`（不要带 https://）
 
 > 就算真的缩到 0 也不用慌，下一次连入会自动唤醒，只是首次连接慢 1~2 秒。
+
+---
+
+## 路线 A2：Render 免费档（Koyeb 要信用卡时的备选）
+
+Render 免费档**不需要信用卡**，也支持 WebSocket。仓库里已经有 `render.yaml`：
+
+1. 打开 https://render.com → 用 GitHub 登录
+2. New + → **Blueprint** → 选 `q2058584268/easytier-cloud-node`
+3. 会自动读取 `render.yaml`，直接 Apply
+4. 拿到 `https://xxx.onrender.com`，客户端用 `wss://xxx.onrender.com`
+
+免费档 15 分钟无流量会休眠，仓库里的 `keepalive.yml` 每 10 分钟 ping 一次正好能保活
+（免费额度 750 小时/月，24 小时跑刚好够）。缺点是只有美西节点，延迟比新加坡高。
 
 ---
 
