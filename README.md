@@ -13,15 +13,22 @@
 
 ### 1. 把这个目录推到 GitHub
 
+仓库已经在本地 `git init` 并提交好了，你只需要给一个 token：
+
+1. 打开 https://github.com/settings/tokens → **Generate new token (classic)**
+2. 勾选 `repo`（全部）和 `workflow`，有效期随意
+3. 复制生成的 `ghp_...`，然后执行：
+
 ```bash
 cd easytier-cloud-node
-git init -b main
-git add .
-git commit -m "EasyTier cloud relay node"
-# 在 GitHub 上新建一个空仓库（不要勾选初始化任何文件），然后：
-git remote add origin git@github.com:<你的用户名>/easytier-cloud-node.git
-git push -u origin main
+export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
+bash push-to-github.sh
 ```
+
+脚本会自动建仓库、推代码，最后打印仓库地址。
+
+> 注意：GitHub **早已不支持用账号密码推代码或调 API**（2021 年起全面改为 token），
+> 所以只能用 Personal Access Token，密码给我也没用。
 
 仓库里已经有 `Dockerfile` 和 `entrypoint.sh`，Koyeb 会自动用 Dockerfile 构建。
 
